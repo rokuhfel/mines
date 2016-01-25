@@ -1,0 +1,18 @@
+#content{
+    margin: 0px auto;
+    display: inline-block
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+h1{
+    text-align: center;
+}
+
+body {
+    background-color: #2e6da4;
+    color: #2e6da4;
+
+}

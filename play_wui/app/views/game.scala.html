@@ -1,0 +1,62 @@
+@(message: String, controller: controllers.MainController)
+@getBlockname(x:Int, y:Int) = @{
+
+}
+
+<script>
+		var bombs = (@controller.grid.width * @controller.grid.height) - @controller.grid.bombs;
+		function checkForWin(){
+			console.log(bombs);
+			if(bombs < 1){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+
+		function handleDblClickResponse(resp,x,y,counter, win){
+			bombs -= 1;
+			console.log(win);
+			if(resp != true){
+				document.getElementById(x + " x " + y).innerHTML = counter;
+				document.getElementById(x + " x " + y).className = "btn btn-success";
+				if(checkForWin()){
+					window.location.href = 'http://localhost:9000/win';
+				}
+			}
+			else{
+				window.location.href = 'http://localhost:9000/lose';
+			}
+		}
+
+		function handleClickResponse(resp,x,y){
+			if(resp == true){
+				console.log(x + " x " + y);
+				document.getElementById(x + " x " + y).innerHTML = "F";
+				document.getElementById(x + " x " + y).className = "btn btn-warning";
+			}
+			console.log("Click-> Resp: " + resp + " x: " + x + " y: " + y)
+		}
+
+</script>
+
+@main("Minesweeper") {
+	<h1> Welcome to HTWG-Mines!</h1>
+	<div id="content">
+	@for(cell <- 0 to controller.grid.width-1){
+		@for(c <- 0 to controller.grid.height-1) {
+
+			<button type="button"
+			id="@c x @cell"
+			style="width:100px;height:100px"
+			onclick="handleClickResponse(@controller.handleClick(c,cell),@c,@cell)"
+			ondblclick="handleDblClickResponse(@controller.handleDblClick(c,cell), @c, @cell, @controller.getCounter(c,cell), @controller.getFields())"
+			class="btn btn-default "
+			name="@c x @cell">
+			</button>
+		}
+		<br>
+		}
+	</div>
+}
